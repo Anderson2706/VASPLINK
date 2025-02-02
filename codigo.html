@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Número</title>
+    <style>
+        @font-face {
+            font-family: 'MonumentExtended';
+            src: url('MonumentExtended-Regular.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fff;
+            position: relative;
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .logo img {
+            width: 120px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        h2 {
+            font-size: 36px;
+            font-weight: 900;
+            color: #333;
+            margin-bottom: 10px;
+            font-family: 'MonumentExtended', Arial, sans-serif;
+            position: relative;
+            top: -20px;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .code-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .code-inputs input {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #F30100;
+            border-radius: 5px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #F30100;
+            outline: none;
+            transition: border-color 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .code-inputs input:focus {
+            border-color: #d72a28;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #F30100;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #d72a28;
+        }
+
+        .message {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .phone-message-container {
+            font-size: 16px;
+            color: #333;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .phone-message {
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .phone-message-container p {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #F30100;
+        }
+
+        .timer {
+            font-weight: bold;
+            color: #F30100;
+        }
+
+        /* Estilo do botão de preenchimento automático */
+        .auto-fill-btn {
+            margin-top: 10px; /* Subir o botão */
+            padding: 10px;
+            background-color: #0A1523; /* Cor alterada */
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .auto-fill-btn:hover {
+            background-color: #212F44;
+        }
+
+        /* Animação para o preenchimento dos números */
+        @keyframes fillNumber {
+            0% {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Estilo do número preenchido com animação */
+        .filled {
+            animation: fillNumber 0.5s ease forwards;
+        }
+
+        /* Estilo para o texto "Voltar" */
+        .back-text {
+            margin-top: 40px; /* Aumentei a margem superior */
+            font-size: 18px; /* Aumentei o tamanho da fonte */
+            font-weight: 600; /* Fonte mais grossa */
+            color: #0A1523; /* Cor de texto */
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo no canto superior esquerdo -->
+    <div class="logo">
+        <img src="88.png" alt="Logo da Empresa">
+    </div>
+
+    <div class="container">
+        <h2>Digite o código de cinco dígitos que enviamos para você</h2>
+
+        <!-- Mensagem com número de telefone do usuário -->
+        <div class="phone-message-container">
+            <p>Verifique seu número <span class="highlight" id="userPhone">+55 **** ****</span>. Isso confirma que é realmente você e nos ajuda a proteger sua conta.</p>
+        </div>
+
+        <!-- Inputs dos códigos -->
+        <div class="code-inputs">
+            <input type="text" maxlength="1" id="input1">
+            <input type="text" maxlength="1" id="input2">
+            <input type="text" maxlength="1" id="input3">
+            <input type="text" maxlength="1" id="input4">
+            <input type="text" maxlength="1" id="input5">
+        </div>
+
+        <!-- Botão de preenchimento automático -->
+        <button class="auto-fill-btn" onclick="autoFillCode()">Preencher Código Automaticamente</button>
+
+        <!-- Botão para verificar o código -->
+        <button class="btn" onclick="verifyCode()">Verificar Código</button>
+        <p class="message">O código é válido por apenas <span id="timer" class="highlight">30</span> segundos.</p>
+
+        <!-- Texto de voltar -->
+        <span class="back-text" onclick="goBack()">Voltar</span>
+    </div>
+
+    <script>
+        // Variáveis globais
+        let timerInterval;
+        let seconds = 30;
+
+        // Captura o número de telefone da URL e exibe na página com os últimos números mascarados
+        window.onload = function () {
+            const params = new URLSearchParams(window.location.search);
+            const phone = params.get('phone');
+            if (phone) {
+                const maskedPhone = phone.replace(/(\d{2})(\d{4})(\d{4})/, '$1 **** ****');
+                document.getElementById('userPhone').textContent = maskedPhone;
+            }
+            startTimer();
+        };
+
+        // Função que faz a contagem regressiva dentro da mensagem
+        function startTimer() {
+            timerInterval = setInterval(function() {
+                seconds--;
+                document.getElementById('timer').textContent = seconds;
+
+                if (seconds <= 0) {
+                    clearInterval(timerInterval);
+                    alert("O tempo acabou! Tente novamente.");
+                    window.location.href = "resendCode.html"; // Exemplo de redirecionamento
+                }
+            }, 1000);
+        }
+
+        // Parar o cronômetro
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        // Preencher automaticamente o código
+        function autoFillCode() {
+            const inputs = document.querySelectorAll('.code-inputs input');
+            let index = 0;
+
+            const fillInterval = setInterval(function() {
+                if (index < inputs.length) {
+                    const randomNumber = Math.floor(Math.random() * 10);
+                    inputs[index].value = randomNumber;
+                    inputs[index].classList.add('filled'); // Adiciona a classe para animação
+                    index++;
+                } else {
+                    clearInterval(fillInterval);
+                    verifyCode(); // Após preencher, verifica o código
+                }
+            }, 500);
+        }
+
+        // Função para verificar o código
+        function verifyCode() {
+            const inputs = document.querySelectorAll('.code-inputs input');
+            let isFilled = true;
+
+            // Verifica se todos os campos foram preenchidos
+            inputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    isFilled = false;
+                }
+            });
+
+            if (!isFilled) {
+                alert('Por favor, preencha todos os campos antes de verificar.');
+                return;
+            }
+
+            // Se estiver tudo certo, redireciona para número.html
+            alert('Código validado com sucesso!');
+            window.location.href = "comprove.html";
+        }
+
+        // Função para voltar à página anterior
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

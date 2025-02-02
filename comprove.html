@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprovar Identidade</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #07101A;
+            color: white;
+        }
+
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #07101A;
+            z-index: 1000;
+        }
+
+        .logo {
+            width: 80px;
+        }
+
+        .login-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 10px;
+            margin-right: 30px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 25px;
+            background-color: #0A1523;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin-top: 100px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #1E2A33;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-field:focus {
+            border-color: #F30100;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #F30100;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #C10000;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #F30100;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="88.png" alt="Logo" class="logo">
+        <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
+    </div>
+
+    <div class="container">
+        <h2>Comprove sua Identidade</h2>
+
+        <!-- Nome e Sobrenome -->
+        <div class="input-group">
+            <input type="text" class="input-field" placeholder="Nome" id="first-name">
+            <input type="text" class="input-field" placeholder="Sobrenome" id="last-name">
+        </div>
+
+        <!-- CPF -->
+        <input type="text" class="input-field" placeholder="CPF (apenas números)" id="cpf" maxlength="11" style="margin-bottom: 20px;">
+
+        <!-- Data de nascimento -->
+        <div class="input-group">
+            <input type="text" class="input-field" placeholder="Dia" id="day" maxlength="2">
+            <input type="text" class="input-field" placeholder="Mês" id="month" maxlength="2">
+            <input type="text" class="input-field" placeholder="Ano" id="year" maxlength="4">
+        </div>
+
+        <!-- Rua -->
+        <input type="text" class="input-field" placeholder="Rua" id="street" style="margin-bottom: 20px;">
+
+        <!-- Bairro -->
+        <input type="text" class="input-field" placeholder="Bairro" id="neighborhood" style="margin-bottom: 20px;">
+
+        <!-- Cidade e Estado -->
+        <div class="input-group">
+            <input type="text" class="input-field" placeholder="Cidade" id="city">
+            <input type="text" class="input-field" placeholder="Estado" id="state" maxlength="2">
+        </div>
+
+        <!-- Botão de Envio -->
+        <button class="btn" onclick="confirmIdentity()">Confirmar Identidade</button>
+
+        <!-- Botão Voltar -->
+        <button class="back-btn" onclick="window.history.back()">Voltar</button>
+    </div>
+
+    <script>
+    // Função de validação do CPF
+    function validateCPF(cpf) {
+        cpf = cpf.replace(/\D/g, ''); // Remove tudo que não for número
+        
+        if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
+            return false; // Se todos os números forem iguais, é inválido
+        }
+
+        let sum = 0, remainder;
+
+        // Validação do primeiro dígito verificador
+        for (let i = 1; i <= 9; i++) sum += parseInt(cpf[i - 1]) * (11 - i);
+        remainder = (sum * 10) % 11;
+        if (remainder === 10 || remainder === 11) remainder = 0;
+        if (remainder !== parseInt(cpf[9])) return false;
+
+        sum = 0;
+
+        // Validação do segundo dígito verificador
+        for (let i = 1; i <= 10; i++) sum += parseInt(cpf[i - 1]) * (12 - i);
+        remainder = (sum * 10) % 11;
+        if (remainder === 10 || remainder === 11) remainder = 0;
+        if (remainder !== parseInt(cpf[10])) return false;
+
+        return true;
+    }
+
+    function confirmIdentity() {
+        const firstName = document.getElementById('first-name').value;
+        const lastName = document.getElementById('last-name').value;
+        const cpf = document.getElementById('cpf').value;
+        const day = document.getElementById('day').value;
+        const month = document.getElementById('month').value;
+        const year = document.getElementById('year').value;
+        const street = document.getElementById('street').value;
+        const neighborhood = document.getElementById('neighborhood').value;
+        const city = document.getElementById('city').value;
+        const state = document.getElementById('state').value;
+
+        // Validar CPF
+        if (!validateCPF(cpf)) {
+            alert("CPF inválido! Verifique e tente novamente.");
+            return;
+        }
+
+        // Montar a data de nascimento
+        const birthDate = `${day}/${month}/${year}`;
+
+        // Armazenar os dados no localStorage
+        const userIdentity = {
+            firstName,
+            lastName,
+            cpf,
+            birthDate,
+            street,
+            neighborhood,
+            city,
+            state
+        };
+
+        // Recupera a lista de usuários do localStorage ou cria uma nova
+        let users = JSON.parse(localStorage.getItem("users"));
+
+        // Verifica se os dados recuperados são válidos e se são realmente um array
+        if (!Array.isArray(users)) {
+            users = []; // Caso contrário, cria um novo array
+        }
+
+        users.push(userIdentity); // Adiciona o novo usuário
+        localStorage.setItem("users", JSON.stringify(users)); // Atualiza no localStorage
+
+        alert("Identidade confirmada! Redirecionando para a página de senha...");
+        window.location.href = "senha.html"; // Redireciona para a página de senha
+    }
+</script>
+
+</body>
+</html>

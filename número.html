@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Telefone</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #07101A; /* Cor de fundo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        /* Cabeçalho fixo no topo */
+        .header {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 25px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            width: 80px; /* Tamanho da logo */
+        }
+
+        /* Apenas texto do botão Cadastre-se */
+        .register-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Espaço para a imagem */
+        .image-container {
+            margin-top: 100px; /* Para evitar sobreposição com o cabeçalho */
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .image-container img {
+            width: 90%; /* Aumentei o tamanho da imagem */
+            max-width: 400px; /* Máximo tamanho para telas maiores */
+        }
+
+        /* Conteúdo principal */
+        .container {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            margin-top: -30px; /* Subi o conteúdo para ficar mais próximo da imagem */
+        }
+
+        /* Campo de entrada reduzido */
+        .input-container {
+            margin-top: 10px; /* Reduzi a distância entre a imagem e o campo */
+        }
+
+        .input-field {
+            width: 80%; /* Reduzi a largura do campo */
+            padding: 12px; /* Diminuí o padding para reduzir a altura */
+            font-size: 16px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-field:focus {
+            border-color: #0A1523;
+        }
+
+        /* Botão */
+        .btn {
+            width: 80%; /* Mantive a largura alinhada com o campo */
+            padding: 12px; /* Diminuí um pouco a altura */
+            background-color: #F30100; /* Cor alterada para vermelho */
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #C10000; /* Tom mais escuro ao passar o mouse */
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho fixo no topo -->
+    <div class="header">
+        <img src="88.png" alt="Logo da Empresa" class="logo">
+        <a href="sing.html" class="register-text">Cadastre-se</a>
+    </div>
+
+    <!-- Imagem abaixo do cabeçalho -->
+    <div class="image-container">
+        <img src="lab.png" alt="Imagem Lab">
+    </div>
+
+    <!-- Conteúdo principal -->
+    <div class="container">
+        <!-- Campo de entrada separado -->
+        <div class="input-container">
+            <input type="tel" id="phoneInput" class="input-field" placeholder="(DDD) 99999-9999">
+            <button class="btn" onclick="sendCode()">Enviar Código</button>
+        </div>
+    </div>
+
+    <script>
+        function sendCode() {
+            const phoneInput = document.getElementById('phoneInput').value;
+            if (phoneInput.trim() === '') {
+                alert('Por favor, insira um número de telefone válido.');
+                return;
+            }
+
+            // Redireciona para a página de verificação com o número de telefone como parâmetro na URL
+            window.location.href = `codigo.html?phone=${encodeURIComponent(phoneInput)}`;
+        }
+    </script>
+</body>
+</html>

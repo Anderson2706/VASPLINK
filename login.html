@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            flex-direction: column;
+        }
+
+        .header {
+            width: 100%;
+            max-width: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            position: absolute;
+            top: 10px;
+        }
+
+        .logo img {
+            width: 90px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 12px;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: bold;
+            color: #333;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .input-field {
+            width: calc(100% - 20px);
+            padding: 12px;
+            font-size: 14px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            display: block;
+            margin: 0 auto;
+            transition: border-color 0.3s;
+        }
+
+        .input-field:focus {
+            border-color: #0A1523;
+        }
+
+        .forgot-password {
+            font-size: 12px;
+            color: #0A1523;
+            text-decoration: none;
+            display: block;
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #0A1523;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #1E2D4D;
+        }
+
+        .create-account {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .create-account a {
+            color: #0A1523;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">
+            <img src="88.png" alt="Logo">
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Sign In</h2>
+
+        <div class="input-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="input-field" placeholder="Enter your email">
+        </div>
+
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="input-field" placeholder="Enter your password">
+            <a href="Reset Password.html" class="forgot-password">Forgot password?</a>
+        </div>
+
+        <button class="btn" onclick="checkLogin()">Sign In</button>
+
+        <div class="create-account">
+            Don't have an account? <a href="sing.html">Create one</a>
+        </div>
+    </div>
+
+    <script>
+        // Simula o armazenamento da senha registrada
+        const registeredPassword = localStorage.getItem("userPassword");
+
+        function checkLogin() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            if (email === "" || password === "") {
+                alert("Fill in all fields!");
+                return;
+            }
+
+            // Verifica se a senha inserida é igual à senha registrada
+            if (password === registeredPassword) {
+                if (password.startsWith("adm1")) {
+                    alert("Admin login successful!");
+                    window.location.href = "dashboard.html";  // Redireciona para o painel administrativo
+                } else {
+                    alert("Login successful!");
+                    window.location.href = "site.html";  // Redireciona para o site
+                }
+            } else {
+                alert("Incorrect password!");
+            }
+        }
+    </script>
+
+</body>
+</html>

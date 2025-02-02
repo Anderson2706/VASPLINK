@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Usuários</title>
+    <style>
+        /* Estilo geral da página */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #07101A;
+            color: white;
+        }
+
+        /* Cabeçalho da página */
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            background-color: #07101A;
+        }
+
+        .logo {
+            width: 80px;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Estilos do container de conteúdo */
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            padding: 25px;
+            background-color: #0A1523;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin: 50px auto;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        /* Estilos da tabela */
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .user-table th, .user-table td {
+            padding: 10px;
+            border: 1px solid #444;
+            text-align: left;
+        }
+
+        .user-table th {
+            background-color: #0A1523;
+        }
+
+        .user-table tr:nth-child(even) {
+            background-color: #1E2A33;
+        }
+
+        .user-table tr:hover {
+            background-color: #333;
+        }
+
+        /* Botão voltar */
+        .back-btn {
+            background: none;
+            border: none;
+            color: #F30100;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <div class="header">
+        <img src="88.png" alt="Logo" class="logo">
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Container do conteúdo -->
+    <div class="container">
+        <h2>Informações dos Usuários</h2>
+
+        <!-- Tabela de usuários -->
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Sobrenome</th>
+                    <th>CPF</th>
+                    <th>Data de Nascimento</th>
+                    <th>Rua</th>
+                    <th>Bairro</th>
+                    <th>Cidade</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody id="user-table-body">
+                <!-- Os dados dos usuários serão inseridos aqui -->
+            </tbody>
+        </table>
+
+        <!-- Botão voltar -->
+        <button class="back-btn" onclick="window.history.back()">Voltar</button>
+    </div>
+
+    <!-- Script de lógica -->
+    <script>
+        // Função para carregar e exibir os dados dos usuários no dashboard
+        function loadUsers() {
+            const users = JSON.parse(localStorage.getItem("users"));
+
+            // Se não houver usuários, exibe uma mensagem de aviso
+            if (!Array.isArray(users)) {
+                document.getElementById('user-table-body').innerHTML = '<tr><td colspan="8">Nenhum usuário encontrado.</td></tr>';
+                return;
+            }
+
+            // Preenche a tabela com os dados dos usuários
+            const tableBody = document.getElementById('user-table-body');
+            tableBody.innerHTML = ''; // Limpa a tabela antes de adicionar os dados
+
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${user.firstName}</td>
+                    <td>${user.lastName}</td>
+                    <td>${user.cpf}</td>
+                    <td>${user.birthDate}</td>
+                    <td>${user.street}</td>
+                    <td>${user.neighborhood}</td>
+                    <td>${user.city}</td>
+                    <td>${user.state}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Função para deslogar (limpar o localStorage e redirecionar)
+        function logout() {
+            localStorage.removeItem("users");
+            window.location.href = "login.html";
+        }
+
+        // Carregar os usuários assim que a página for carregada
+        window.onload = loadUsers;
+    </script>
+</body>
+</html>

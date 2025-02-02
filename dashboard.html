@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Lastlink</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #07101A;
+            color: white;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Botão do menu hambúrguer */
+        .menu-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 1001;
+            background: none;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .bar {
+            width: 28px;
+            height: 4px;
+            background-color: white;
+            transition: 0.3s;
+        }
+
+        .menu-btn.active .bar:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .menu-btn.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-btn.active .bar:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #F30100;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transition: opacity 0.3s ease-in-out;
+            padding-top: 60px;
+            padding-left: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .sidebar.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            color: white;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px;
+            cursor: pointer;
+            border-bottom: 1px solid white;
+            color: white;
+            transition: background 0.3s;
+        }
+
+        .sidebar ul li:hover {
+            background-color: #D20000;
+        }
+
+        /* Conteúdo Principal */
+        .main-content {
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        header {
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background-color: #0C1929;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 30%;
+        }
+
+        .chart-container {
+            background-color: #0C1929;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* Estilizando o gráfico de pizza */
+        .chart-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Botão do menu hambúrguer -->
+    <button class="menu-btn" onclick="toggleMenu()">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </button>
+
+    <!-- Menu lateral -->
+    <div class="sidebar" id="sidebar">
+    <h2>Lastlink Admin</h2>
+    <ul>
+        <li>Dashboard</li>
+        <li><a href="usuário.html">Usuários</a></li> <!-- Adicionando o link para a página de usuários -->
+        <li>Configurações</li>
+    </ul>
+</div>
+
+    <div class="main-content">
+        <header>
+            <h1>Dashboard</h1>
+        </header>
+
+        <section class="stats">
+            <div class="card">
+                <h3>Total de Usuários</h3>
+                <p id="total-users">0</p>
+            </div>
+            <div class="card">
+                <h3>Logins nas últimas 24h</h3>
+                <p id="active-users">0</p>
+            </div>
+            <div class="card">
+                <h3>Usuários não registrados</h3>
+                <p id="unregistered-users">0</p>
+            </div>
+        </section>
+
+        <!-- Gráfico de Crescimento -->
+        <section class="chart-container">
+            <h3>Crescimento da Plataforma</h3>
+            <canvas id="growthChart"></canvas>
+        </section>
+
+        <!-- Gráfico de Pizza -->
+        <section class="chart-container">
+            <h3>Distribuição de Usuários</h3>
+            <div class="chart-wrapper">
+                <canvas id="userChart"></canvas>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById("sidebar");
+            const menuBtn = document.querySelector(".menu-btn");
+
+            if (sidebar.style.visibility === "visible") {
+                sidebar.style.opacity = "0";
+                setTimeout(() => {
+                    sidebar.style.visibility = "hidden";
+                }, 300);
+            } else {
+                sidebar.style.visibility = "visible";
+                sidebar.style.opacity = "1";
+            }
+
+            menuBtn.classList.toggle("active");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+
+            document.getElementById("total-users").innerText = users.length;
+
+            let activeUsers = 0;
+            let unregisteredUsers = 0;
+            const last24Hours = Date.now() - (24 * 60 * 60 * 1000);
+
+            users.forEach(user => {
+                if (user.lastLogin && new Date(user.lastLogin).getTime() > last24Hours) {
+                    activeUsers++;
+                }
+                if (!user.cpf) {
+                    unregisteredUsers++;
+                }
+            });
+
+            document.getElementById("active-users").innerText = activeUsers;
+            document.getElementById("unregistered-users").innerText = unregisteredUsers;
+
+            let growthData = users.map((_, i) => i + 1);
+            let labels = users.map((_, i) => `Dia ${i + 1}`);
+
+            new Chart(document.getElementById("growthChart"), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Crescimento da Plataforma',
+                        data: growthData,
+                        borderColor: '#F30100',
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                }
+            });
+
+            // Gráfico de Pizza
+            new Chart(document.getElementById("userChart"), {
+                type: 'pie',
+                data: {
+                    labels: ['Usuários Registrados', 'Usuários Não Registrados'],
+                    datasets: [{
+                        data: [users.length - unregisteredUsers, unregisteredUsers],
+                        backgroundColor: ['#F30100', '#CCCCCC']
+                    }]
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

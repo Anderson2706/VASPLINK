@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+        }
+        .logo img {
+            width: 150px;
+            margin-bottom: 30px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            font-size: 16px;
+        }
+        .input-group input:focus {
+            border-color: #F30100;
+        }
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #F30100;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #d72a28;
+        }
+        .separator {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .separator span {
+            color: #aaa;
+            font-size: 18px;
+            padding: 0 10px;
+        }
+        .separator::before,
+        .separator::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: #ccc;
+        }
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .social-buttons img {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="88.png" alt="Logo">
+        </div>
+
+        <!-- Formulário de Login -->
+        <div class="input-group">
+            <input type="email" placeholder="Digite seu email" id="email" required>
+        </div>
+        <!-- Botão Continuar -->
+        <button class="btn" onclick="loginWithEmail()">Continuar</button>
+
+        <!-- Separador -->
+        <div class="separator">
+            <span>ou</span>
+        </div>
+
+        <!-- Botões de Login -->
+        <button class="btn" onclick="window.location.href='chave.html'">Entrar com Chave de Acesso</button>
+
+    <button class="btn" id="googleLoginBtn">Entrar com Google</button> 
+<button class="btn" id="appleLoginBtn">Entrar com Apple</button>
+        <!-- Botões de Login Social -->
+        <div class="social-buttons">
+            <img src="https://img.icons8.com/?size=100&id=17949&format=png&color=000000" alt="Google" onclick="window.location.href='https://accounts.google.com/'">
+            <img src="logo-apple.png" alt="Apple" onclick="window.location.href='https://appleid.apple.com/'">
+        </div>
+    </div>
+
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+        // Inicialize o EmailJS com a chave pública
+        emailjs.init("0dV6HxJFlZD1sU9PB");  // Substitua "sua_chave_publica" pela sua chave pública
+
+        function loginWithEmail() {
+            const email = document.getElementById('email').value;
+            if (email) {
+                // Gerar código aleatório de 5 dígitos
+                const verificationCode = Math.floor(10000 + Math.random() * 90000);
+
+                // Enviar o e-mail com o código de verificação
+                sendVerificationEmail(email, verificationCode);
+
+                // Redirecionar para a página de verificação
+                window.location.href = `válido.html?email=${encodeURIComponent(email)}&code=${verificationCode}`;
+            } else {
+                alert('Por favor, insira um email válido.');
+            }
+        }
+
+        function sendVerificationEmail(email, verificationCode) {
+            // Preparar os dados para o envio do e-mail
+            const templateParams = {
+                to_email: email,
+                verification_code: verificationCode
+            };
+
+            // Enviar o e-mail usando o EmailJS
+            emailjs.send("service_pyu2icl", "template_verificacao", templateParams)
+                .then(function(response) {
+                    console.log("E-mail enviado com sucesso!", response);
+                },
+                function(error) {
+                    console.log("Erro ao enviar o e-mail:", error);
+                });
+        }
+    </script>
+</body>
+</html>

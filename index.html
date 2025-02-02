@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vastlink - Estratégias no Mundo das Criptomoedas</title>
+
+    <!-- Importando a fonte Poppins do Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Resetando o estilo padrão */
+       * { margin: 0; padding: 0; box-sizing: border-box; } 
+       
+        /* Corpo da página */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            color: #000;
+        }
+        /* Estilos para o quadrado com o texto "Baixe o App Aqui!" */
+        .download-app {
+            background-color: #000;  /* Cor de fundo preta */
+            color: #fff;  /* Cor do texto branca */
+            font-family: 'Monument Extended', sans-serif;  /* Usando a fonte MonumentExtended */
+            font-size: 24px;  /* Tamanho da fonte */
+            font-weight: bold;  /* Peso da fonte */
+            text-align: center;  /* Centraliza o texto */
+            padding: 20px 40px;  /* Espaçamento dentro do quadrado */
+            border-radius: 8px;  /* Bordas arredondadas */
+            cursor: pointer;  /* Cursor de mão para indicar que é clicável */
+            width: fit-content;  /* O tamanho da largura será ajustado ao conteúdo */
+            margin: 20px auto;  /* Centraliza o quadrado na página */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);  /* Sombra suave */
+            transition: all 0.3s ease;  /* Transição suave para hover */
+        }
+
+        /* Estilos do header */
+        header {
+            background-color: #fff;
+            color: #000;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            border-bottom: 2px solid #ddd;
+        }
+
+        /* Logo alinhado à esquerda */
+        header h1 {
+            font-size:36px;
+            color: #101826;
+            font-weight: bold;
+            margin-left: 0; /* Logo mais à esquerda */
+        }
+        header img { width: 120px; /* Tamanho reduzido da logo */ height: auto; max-height: 80px; /* Garante que a altura não ultrapasse 80px */ object-fit: contain; /* Mantém a proporção da imagem */ } 
+
+        /* Botão de menu hamburguer */
+        .menu-toggle {
+            display: none;
+            background-color: transparent;
+            border: none;
+            font-size: 30px;
+            color: #000;
+            cursor: pointer;
+        }
+
+        /* Estilos do menu de navegação */
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+
+        nav a {
+            color: #000;
+            margin: 0 20px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        /* Botão "Cadastre-se" ajustado */
+        nav .cta-button {
+            background-color: #F30100;  /* Cor laranja alterada */
+            padding: 4px 12px;  /* Altura do botão ainda mais reduzida */
+            color: #fff;
+            font-size: 12px;  /* Fonte do botão ainda menor */
+            font-weight: bold;  /* Letras mais grossas */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        nav .cta-button:hover {
+            background-color: #d30000; /* Cor de hover mais escura */
+        }
+
+        /* Menu hamburguer em telas pequenas */
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+                position: absolute;
+                top: 70px;
+                right: 20px;
+                background-color: #fff;
+                border-radius: 5px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 200px;
+            }
+
+            nav a {
+                display: block;
+                padding: 10px;
+                text-align: center;
+                border-bottom: 1px solid #ddd;
+            }
+
+            nav a:last-child {
+                border-bottom: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            /* Quando o menu estiver visível */
+            nav.open {
+                display: block;
+            }
+        }
+
+        /* Seção de introdução */
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            background-color: #fff;
+            color: #000;
+        }
+
+        /* Aplicando a nova fonte ao título */
+        .hero h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 48px; /* Aumentando o tamanho da fonte para maior destaque */
+            font-weight: 700; /* Deixando a fonte mais espessa */
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            background-color: #F30100;  /* Cor laranja alterada */
+            padding: 12px 30px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;  /* Letras mais grossas */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: #d30000; /* Cor de hover mais escura */
+        }
+
+        /* Descrição do que a empresa faz */
+        .what-we-do {
+            padding: 40px 20px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .what-we-do h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .what-we-do p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        /* Nova seção abaixo do botão */
+        .extra-info {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: #f4f4f4;
+        }
+
+        .extra-info h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .extra-info p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .extra-info img {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 30px;
+        }
+
+        /* Seção de Recursos da Plataforma */
+        .platform-features {
+            padding: 50px 20px;
+            background-color: #e9ecef;
+            text-align: center;
+        }
+
+        .platform-features h3 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .platform-features ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .platform-features li {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        /* Rodapé */
+        footer {
+            background-color: #101826;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        footer p {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cabeçalho -->
+    <header>
+        <img src="88.png" alt="Logo Vastlink">
+        <nav>
+            <a href="#features">Recursos</a>
+            <a href="#about">Sobre</a>
+            <a href="#contact">Contato</a>
+        </nav>
+        <button class="cta-button" id="cadastre-se" onclick="window.location.href='Sing.html'">Cadastre-se</button>
+
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    </header>
+
+    <!-- Seção Hero -->
+    <section class="hero">
+        <h2>Estratégias no Mundo das Criptomoedas</h2>
+        <p>A Vasplink oferece as melhores estratégias para investir no mercado de criptomoedas, com análises e insights de alta qualidade.</p>
+        <button class="cta-button" id="comece-agora" onclick="window.location.href='Sing.html'">Comece Agora</button>
+
+    </section>
+
+    <!-- Nova Seção abaixo do botão -->
+    <section class="extra-info">
+        <h3>Junte-se à revolução das criptomoedas</h3>
+        <p>Com a Vasplink, você tem acesso a estratégias únicas que podem transformar sua jornada no mercado de criptomoedas. Nossos especialistas analisam o mercado em tempo real, oferecendo a você as melhores oportunidades de investimento.</p>
+        <!-- Imagem inserida abaixo do texto -->
+        <img src="mulher.png" alt="Imagem de uma mulher">
+    </section>
+
+    <!-- Seção O Que Fazemos -->
+    <section class="what-we-do" id="about">
+        <h3>O que a Vasplink faz</h3>
+        <p>A Vasplink oferece uma plataforma única de estratégias e insights para o mercado de criptomoedas. Ajudamos investidores a navegar pelas flutuações do mercado, fornecendo análises detalhadas e recomendações personalizadas.</p>
+        <!-- Imagem inserida após o texto -->
+        <img src="Cllrr.png" alt="Imagem CLLR" style="max-width: 100%; height: auto; margin-top: 30px;">
+    </section>
+
+    <!-- Seção de Recursos da Plataforma -->
+    <section class="platform-features" id="features">
+        <h3>Recursos da Nossa Plataforma</h3>
+        <ul>
+            <li>Estratégias de investimento personalizadas para o mercado de criptomoedas.</li>
+            <li>Análises detalhadas de tendências e oportunidades em tempo real.</li>
+            <li>Ferramentas de gestão de portfólio para otimizar seus investimentos.</li>
+            <li>Alertas e notificações para oportunidades de mercado importantes.</li>
+            <li>Suporte especializado para ajudá-lo em todas as etapas do processo.</li>
+        </ul>
+    </section>
+<section class="benefits" style="padding: 30px; display: flex; flex-direction: column; align-items: flex-start; gap: 15px;">
+    <div class="benefit" style="display: flex; align-items: center; gap: 10px;">
+        <img src="verificado.png" alt="Verificado" style="width: 70px; height: 70px;">
+        <div>
+            <h4 style="margin: 0; font-size: 16px;">Transferências fáceis</h4>
+            <p style="margin: 0; font-size: 14px; color: #555;">Faça depósitos e saques com PIX, sem nenhuma taxa.</p>
+        </div>
+    </div>
+    <div class="benefit" style="display: flex; align-items: center; gap: 10px;">
+        <img src="verificado.png" alt="Verificado" style="width: 70px; height: 70px;">
+        <div>
+            <h4 style="margin: 0; font-size: 16px;">Rendimento e proteção contra inflação</h4>
+            <p style="margin: 0; font-size: 14px; color: #555;">Dolarize seus ativos comprando USDC e ainda ganhe 5,1% ao ano.</p>
+        </div>
+    </div>
+    <!-- Adicionando mais 2 imagens -->
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 20px;">
+        <img src="imagem1.png" alt="Imagem adicional 1" style="width: 200px; height: auto; border-radius: 15px;">
+        <img src="Imagem12.jpg" alt="Imagem adicional 2" style="width: 200px; height: auto; border-radius: 15px;">
+    </div>
+</section>
+
+<section class="advanced-tools" style="padding: 40px 20px; background-color: #f9f9f9; text-align: center;">
+    <!-- Subtítulo com letras mais grossas -->
+    <h3 style="font-size: 30px; margin-bottom: 25px; color: #333; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;">
+        Ferramentas Avançadas da Vasplink
+    </h3>
+    <p style="font-size: 18px; color: #555; margin-bottom: 30px; font-weight: 500;">
+        Descubra como nossas ferramentas avançadas podem transformar sua experiência no mercado de criptomoedas, ajudando você a tomar decisões mais inteligentes e assertivas.
+    </p>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+        <!-- Ferramenta 1 -->
+        <div style="max-width: 300px; background-color: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 20px; text-align: left;">
+            <img src="grafico.png" alt="Análise Gráfica" style="width: 100%; height: auto; border-radius: 10px; margin-bottom: 15px;">
+            <h4 style="font-size: 22px; color: #333; margin-bottom: 10px; font-weight: 800;">Análise Gráfica Avançada</h4>
+            <p style="font-size: 16px; color: #555;">
+                Ferramentas de análise técnica que ajudam você a entender os movimentos do mercado em detalhes, utilizando gráficos de velas, indicadores e muito mais.
+            </p>
+        </div>
+        <!-- Ferramenta 2 -->
+        <div style="max-width: 300px; background-color: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 20px; text-align: left;">
+            <img src="Alerta.png" alt="Alertas de Mercado" style="width: 100%; height: auto; border-radius: 10px; margin-bottom: 15px;">
+            <h4 style="font-size: 22px; color: #333; margin-bottom: 10px; font-weight: 800;">Alertas de Mercado</h4>
+            <p style="font-size: 16px; color: #555;">
+                Receba notificações em tempo real sobre oportunidades de mercado, mudanças significativas e atualizações de criptomoedas.
+            </p>
+        </div>
+        <!-- Ferramenta 3 -->
+        <div style="max-width: 300px; background-color: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 20px; text-align: left;">
+            <img src="carteira.png" alt="Carteira Segura" style="width: 100%; height: auto; border-radius: 10px; margin-bottom: 15px;">
+            <h4 style="font-size: 22px; color: #333; margin-bottom: 10px; font-weight: 800;">Carteira Segura</h4>
+            <p style="font-size: 16px; color: #555;">
+                Uma carteira digital integrada, onde você pode armazenar, transferir e gerenciar suas criptomoedas com total segurança e praticidade.
+            </p>
+        </div>
+        <!-- Ferramenta 4 -->
+        <div style="max-width: 300px; background-color: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 20px; text-align: left;">
+            <img src="educacao.png" alt="Plataforma Educacional" style="width: 100%; height: auto; border-radius: 10px; margin-bottom: 15px;">
+            <h4 style="font-size: 22px; color: #333; margin-bottom: 10px; font-weight: 800;">Plataforma Educacional</h4>
+            <p style="font-size: 16px; color: #555;">
+                Cursos e materiais exclusivos para você aprender sobre criptomoedas, blockchain e como tirar o máximo proveito do mercado.
+            </p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div style="display: flex; flex-direction: column; align-items: flex-start; padding: 0 10px 10px; background-color: #101823; color: #fff; box-sizing: border-box;">
+        <!-- Logo mais próxima da parte de cima do rodapé -->
+        <div style="display: flex; align-items: center; margin-bottom: 0px;">
+            <img src="logoss.png" alt="Logo da Lastlink" style="width: 180px; height: auto;">
+        </div>
+        
+        <!-- Colunas mais próximas da logo -->
+        <div style="display: flex; justify-content: space-between; width: 100%; max-width: 1100px; padding: 0 20px;">
+            <!-- Coluna Institucional -->
+            <div style="flex: 1; text-align: left; margin-right: 40px;">
+                <h4 style="margin-bottom: 10px; font-weight: bold;">Institucional</h4>
+                <ul style="list-style: none; padding: 0; margin: 0; line-height: 1.8;">
+                    <li><a href="#sobre" style="color: #fff; text-decoration: none; font-weight: bold;">Sobre a Vasplink</a></li>
+                    <li><a href="#carreiras" style="color: #fff; text-decoration: none; font-weight: bold;">Carreiras</a></li>
+                    <li><a href="#imprensa" style="color: #fff; text-decoration: none; font-weight: bold;">Sala de Imprensa</a></li>
+                    <li><a href="#seguranca" style="color: #fff; text-decoration: none; font-weight: bold;">Segurança</a></li>
+                    <li><a href="#investidores" style="color: #fff; text-decoration: none; font-weight: bold;">Para Investidores</a></li>
+                    <li><a href="#comunidade" style="color: #fff; text-decoration: none; font-weight: bold;">Nossa Comunidade</a></li>
+                    <li><a href="#regulamentos" style="color: #fff; text-decoration: none; font-weight: bold;">Regulamentos</a></li>
+                    <li><a href="#sustentabilidade" style="color: #fff; text-decoration: none; font-weight: bold;">Sustentabilidade</a></li>
+                    <li><a href="#politica-privacidade" style="color: #fff; text-decoration: none; font-weight: bold;">Política de Privacidade</a></li>
+                    <li><a href="#termos-uso" style="color: #fff; text-decoration: none; font-weight: bold;">Termos de Uso</a></li>
+                </ul>
+            </div>
+
+            <!-- Coluna Ajuda -->
+            <div style="flex: 1; text-align: left;">
+                <h4 style="margin-bottom: 10px; font-weight: bold;">Ajuda</h4>
+                <ul style="list-style: none; padding: 0; margin: 0; line-height: 1.8;">
+                    <li><a href="#faq" style="color: #fff; text-decoration: none; font-weight: bold;">Perguntas Frequentes</a></li>
+                    <li><a href="#suporte" style="color: #fff; text-decoration: none; font-weight: bold;">Suporte ao Cliente</a></li>
+                    <li><a href="#pagamentos" style="color: #fff; text-decoration: none; font-weight: bold;">Pagamentos</a></li>
+                    <li><a href="#verificacao-conta" style="color: #fff; text-decoration: none; font-weight: bold;">Verificação de Conta</a></li>
+                    <li><a href="#problemas-login" style="color: #fff; text-decoration: none; font-weight: bold;">Problemas de Login</a></li>
+                    <li><a href="#limites-transacoes" style="color: #fff; text-decoration: none; font-weight: bold;">Limites de Transações</a></li>
+                    <li><a href="#criptomoedas-suportadas" style="color: #fff; text-decoration: none; font-weight: bold;">Criptomoedas Suportadas</a></li>
+                    <li><a href="#relatar-fraude" style="color: #fff; text-decoration: none; font-weight: bold;">Relatar Fraude</a></li>
+                    <li><a href="#como-investir" style="color: #fff; text-decoration: none; font-weight: bold;">Como Investir na Vasplink</a></li>
+                    <li><a href="#contato" style="color: #fff; text-decoration: none; font-weight: bold;">Contato</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <p style="text-align: center; margin: 0; background-color: #101823; color: #fff; padding: 10px;">&copy; 2025 Vasplink. Todos os direitos reservados.</p>
+</footer>
+
+
+
+    <script>
+        // Função para exibir/ocultar o menu hamburguer
+        function toggleMenu() {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

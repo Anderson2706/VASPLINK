@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Senha e Chave de Acesso</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            flex-direction: column;
+        }
+
+        .header {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            position: absolute;
+            top: 10px;
+        }
+
+        .logo img {
+            width: 100px;
+        }
+
+        .login-btn {
+            font-size: 16px;
+            font-weight: bold;
+            color: #0A1523;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            width: 100%;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            width: calc(100% - 20px);
+            padding: 14px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .input-field:focus {
+            border-color: #0A1523;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 14px;
+            color: #0A1523;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #0A1523;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #1E2D4D;
+        }
+
+        .message {
+            font-size: 14px;
+            color: red;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .rules {
+            text-align: left;
+            font-size: 14px;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f0f0f0;
+        }
+
+        .rule {
+            color: #999;
+            margin: 5px 0;
+        }
+
+        .valid {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">
+            <img src="88.png" alt="Logo">
+        </div>
+        <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
+    </div>
+
+    <div class="container">
+        <h2>Criar Senha e Chave de Acesso</h2>
+
+        <div class="input-group">
+            <input type="password" id="password" class="input-field" placeholder="Crie sua senha">
+            <span class="toggle-password" onclick="togglePassword('password')">👁️</span>
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="confirmPassword" class="input-field" placeholder="Confirme sua senha">
+            <span class="toggle-password" onclick="togglePassword('confirmPassword')">👁️</span>
+        </div>
+
+        <p id="passwordMessage" class="message">As senhas não coincidem.</p>
+
+        <div class="input-group">
+            <input type="text" id="accessKey" class="input-field" placeholder="Crie sua chave de acesso (Ex: ABC-123-XYZ)" oninput="validateAccessKey()">
+        </div>
+
+        <div class="rules">
+            <p><strong>Sua chave deve conter:</strong></p>
+            <p class="rule" id="rule1">✔ Pelo menos 3 letras maiúsculas</p>
+            <p class="rule" id="rule2">✔ Pelo menos 3 números</p>
+            <p class="rule" id="rule3">✔ Deve conter 2 traços (-)</p>
+            <p class="rule" id="rule4">✔ No mínimo 9 caracteres</p>
+        </div>
+
+        <button class="btn" onclick="validateForm()">Salvar</button>
+    </div>
+
+    <script>
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            field.type = field.type === "password" ? "text" : "password";
+        }
+
+        function validateAccessKey() {
+            const accessKey = document.getElementById('accessKey').value;
+
+            const hasThreeUppercase = (accessKey.match(/[A-Z]/g) || []).length >= 3;
+            const hasThreeNumbers = (accessKey.match(/[0-9]/g) || []).length >= 3;
+            const hasTwoDashes = (accessKey.match(/-/g) || []).length === 2;
+            const hasNineChars = accessKey.length >= 9;
+
+            document.getElementById('rule1').classList.toggle("valid", hasThreeUppercase);
+            document.getElementById('rule2').classList.toggle("valid", hasThreeNumbers);
+            document.getElementById('rule3').classList.toggle("valid", hasTwoDashes);
+            document.getElementById('rule4').classList.toggle("valid", hasNineChars);
+        }
+
+        function validateForm() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const accessKey = document.getElementById('accessKey').value;
+            const passwordMessage = document.getElementById('passwordMessage');
+
+            if (password !== confirmPassword) {
+                passwordMessage.style.display = "block";
+                return;
+            } else {
+                passwordMessage.style.display = "none";
+            }
+
+            const hasThreeUppercase = (accessKey.match(/[A-Z]/g) || []).length >= 3;
+            const hasThreeNumbers = (accessKey.match(/[0-9]/g) || []).length >= 3;
+            const hasTwoDashes = (accessKey.match(/-/g) || []).length === 2;
+            const hasNineChars = accessKey.length >= 9;
+
+            if (!(hasThreeUppercase && hasThreeNumbers && hasTwoDashes && hasNineChars)) {
+                alert("A chave de acesso não atende aos requisitos.");
+                return;
+            }
+
+            alert("Senha e chave de acesso criadas com sucesso!");
+        }
+    </script>
+
+</body>
+</html>
+
