@@ -205,13 +205,96 @@
         .filter-button.active .filter-options {
             display: block;
         }
+        .content {
+    margin-bottom: 80px; /* Ajuste para um valor que deixe a seta visível */
+}
+
+           /* Rodapé */
+/* Rodapé 
+*/
+html, body {
+    min-height: 100vh;
+    position: relative;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #1E2430;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px 0;
+    border-radius: 15px 15px 0 0;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+.footer {
+    position: relative;
+}
+
+
+.footer-item {
+    text-align: center;
+    color: #FFF;
+    font-size: 14px;
+    transition: color 0.3s, transform 0.3s;
+    cursor: pointer;
+}
+
+.footer-item img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 5px;
+    transition: transform 0.3s, filter 0.3s;
+}
+
+.footer-item.active {
+    color: #FFF;
+}
+
+.footer-item:hover {
+    color: #F30100;
+    transform: scale(1.1);
+}
+.container {
+    padding-bottom: 80px;
+}
+
+.footer-item:hover img {
+    transform: scale(1.2);
+    filter: brightness(1.2);
+}
+
+.footer-center {
+    background-color: #F30100;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s;
+}
+
+.footer-center img {
+    width: 40px;
+    height: 40px;
+}
+
+.footer-center:hover {
+    transform: scale(1.2);
+}
+
     </style>
 </head>
 <body>
     <div class="header">
         <div class="profile">
             <img src="tt.png" alt="User">
-            <span class="username">vastlink.cd.id</span>
+            <span class="username">vasplink.cd.id</span>
         </div>
         <div class="notification">
             <img src="sino.png" alt="Notification">
@@ -270,8 +353,33 @@
         <span class="page-info" id="page-info">1/10</span>
         <button id="nextPage" onclick="changePage('next')">&#x21E8;</button>
     </div>
+     <div class="footer">
+        <div class="footer-item active">
+            <img src="casa1.png" alt="Market">
+            <div>home</div>
+        </div>
+        <div class="footer-item">
+            <img src="icone2.png" alt="Square">
+            <div>markets</div>
+        </div>
+        <div class="footer-center">
+            <img src="swap.png" alt="Swap">
+        </div>
+        <div class="footer-item">
+            <img src="bu.png" alt="Discover">
+            <div>Discover</div>
+        </div>
+        <div class="footer-item">
+            <img src="mala.png" alt="Portfolio">
+            <div>Portfolio</div>
+        </div>
+    </div>
 
     <script>
+        function abrirGrafico(cryptoId) {
+        window.location.href = `grafico.html?moeda=${cryptoId}`;
+    }
+        
         let allCryptos = []; // Array para armazenar todas as criptomoedas
         let filteredCryptos = [];
         let currentCurrency = 'usd'; // Moeda padrão
@@ -402,6 +510,8 @@
         }
 
         fetchAllCryptos();
+        
     </script>
 </body>
 </html>
+
